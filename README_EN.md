@@ -1,4 +1,4 @@
-# real3dportrait-cntech
+# Real3dportrait-yinfeng
 
 This repository is an engineering adaptation of [Real3D-Portrait](https://github.com/yerfor/Real3DPortrait) (ICLR 2024 Spotlight). It keeps the original inference pipeline and adds a FastAPI HTTP service, Edge-TTS integration, long-text chunking, asynchronous task tracking, and chunk-based inference for internal digital human generation and project handoff.
 
