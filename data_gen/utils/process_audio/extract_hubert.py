@@ -6,7 +6,38 @@ import soundfile as sf
 from transformers import Wav2Vec2Processor, HubertModel
 
 # 全局变量
-hubert_model_dir = '/root/.cache/huggingface/hub/models--facebook--hubert-large-ls960-ft/snapshots/ece5fabbf034c1073acae96d5401b25be96709d8'
+# HuBERT 模型默认使用 HuggingFace cache；也可以通过环境变量 HUBERT_MODEL_DIR 指定本地目录。
+# 推荐模型：facebook/hubert-large-ls960-ft
+def resolve_hubert_model_dir():
+    env_dir = os.environ.get("HUBERT_MODEL_DIR")
+    if env_dir and os.path.exists(env_dir):
+        return env_dir
+
+    cache_root = "/root/.cache/huggingface/hub/models--facebook--hubert-large-ls960-ft/snapshots"
+    if os.path.exists(cache_root):
+        snapshots = [
+            os.path.join(cache_root, d)
+            for d in os.listdir(cache_root)
+            if os.path.isdir(os.path.join(cache_root, d))
+        ]
+
+        # 优先选择包含 safetensors 的 snapshot，避免低版本 torch 加载 pytorch_model.bin 的安全限制问题。
+        snapshots_with_safetensors = [
+            d for d in snapshots
+            if os.path.exists(os.path.join(d, "model.safetensors"))
+        ]
+        if snapshots_with_safetensors:
+            return sorted(snapshots_with_safetensors)[-1]
+
+        if snapshots:
+            return sorted(snapshots)[-1]
+
+    raise FileNotFoundError(
+        "HuBERT model not found. Please download facebook/hubert-large-ls960-ft first, "
+        "or set HUBERT_MODEL_DIR to a local HuBERT model directory."
+    )
+
+hubert_model_dir = None
 wav2vec2_processor = None
 hubert_model = None
 _model_lock = threading.Lock()  # 线程锁，防止并发初始化冲突
@@ -26,12 +57,15 @@ def get_hubert_from_16k_speech(speech, device="cuda:0"):
         with _model_lock:
             if hubert_model is None:
                 print(">>> [HuBERT] Loading model and processor...")
-                if os.path.exists(hubert_model_dir):
-                    # 在初始化时一次性加载到 GPU 并保持在评估模式
-                    hubert_model = HubertModel.from_pretrained(hubert_model_dir).to(device).eval()
-                    wav2vec2_processor = Wav2Vec2Processor.from_pretrained(hubert_model_dir)
-                else:
-                    raise FileNotFoundError(f"Hubert model directory not found at {hubert_model_dir}")
+                hubert_model_dir = resolve_hubert_model_dir()
+                print(f">>> [HuBERT] Using model directory: {hubert_model_dir}")
+
+                # 优先使用 safetensors，避免低版本 torch 加载 pytorch_model.bin 的安全限制问题。
+                hubert_model = HubertModel.from_pretrained(
+                    hubert_model_dir,
+                    use_safetensors=os.path.exists(os.path.join(hubert_model_dir, "model.safetensors"))
+                ).to(device).eval()
+                wav2vec2_processor = Wav2Vec2Processor.from_pretrained(hubert_model_dir)
 
     # 数据预处理
     if speech.ndim == 2:
