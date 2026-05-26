@@ -1,6 +1,6 @@
 # real3dportrait-cntech
 
-本仓库基于 [Real3D-Portrait](https://github.com/yerfor/Real3DPortrait)（ICLR 2024 Spotlight）进行工程化改造。项目在保留原始推理链路的基础上，新增 FastAPI HTTP 服务、Edge-TTS 语音合成、长文本分块、异步任务状态管理和分块推理能力，用于内部数字人生成服务与项目交接。
+本仓库基于 [Real3D-Portrait](https://github.com/yerfor/Real3DPortrait)进行工程化改造。项目在保留原始推理链路的基础上，新增 FastAPI HTTP 服务、Edge-TTS 语音合成、长文本分块、异步任务状态管理和分块推理能力，用于内部数字人生成服务与项目交接。
 
 原始 Real3D-Portrait 主要提供 Gradio WebUI 和 CLI 推理方式；本项目更关注服务化调用和工程部署，将“人像图片 + 驱动音频/姿态”的推理流程扩展为“文本输入 → TTS 生成音频 → 数字人视频生成”的服务流程。
 
