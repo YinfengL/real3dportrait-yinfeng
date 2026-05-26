@@ -44,6 +44,18 @@ infer_out/
 *.log
 
 # BFM large assets
-deep_3drecon/BFM/*.mat
-deep_3drecon/BFM/*.zip
-deep_3drecon/BFM/*.bin
+
+# Large BFM assets downloaded separately
+deep_3drecon/BFM/01_MorphableModel.mat
+deep_3drecon/BFM/BFM_model_front.mat
+deep_3drecon/BFM/Exp_Pca.bin
+deep_3drecon/BFM/3DMM BFM.zip
+
+# Other BFM assets downloaded separately
+deep_3drecon/BFM/BFM_exp_idx.mat
+deep_3drecon/BFM/BFM_front_idx.mat
+deep_3drecon/BFM/facemodel_info.mat
+
+# handoff comparison files
+handoff_compare/
+handoff_compare.tar.gz
