@@ -1,4 +1,4 @@
-# real3dportrait-yinfeng
+# Real3dportrait-yinfeng
 
 本仓库基于 [Real3D-Portrait](https://github.com/yerfor/Real3DPortrait)（ICLR 2024 Spotlight）进行工程化改造。项目保留原始 Real3D-Portrait 推理链路，并在此基础上新增 FastAPI HTTP 服务、Edge-TTS 文本转语音、长文本分块、异步任务状态管理、静态特征缓存和分块视频生成能力。
 
