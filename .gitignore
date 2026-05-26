@@ -1,0 +1,49 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+
+# env
+.venv/
+venv/
+env/
+
+# logs
+logs/
+runs/
+outputs/
+infer_out/
+
+# cache
+.cache/
+tmp/
+
+# checkpoints
+checkpoints/
+
+# large files
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.onnx
+
+# dataset
+datasets/
+data_cache/
+
+# visualization/debug
+_torchshow/
+*.png
+
+# demo/output
+*.mp4
+infer_out/
+
+# logs
+*.log
+
+# BFM large assets
+deep_3drecon/BFM/*.mat
+deep_3drecon/BFM/*.zip
+deep_3drecon/BFM/*.bin
