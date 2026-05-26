@@ -1,4 +1,4 @@
-# real3dportrait-yinfeng
+# Real3dportrait-yinfeng
 
 This repository is an engineering adaptation of [Real3D-Portrait](https://github.com/yerfor/Real3DPortrait) (ICLR 2024 Spotlight). It keeps the original Real3D-Portrait inference pipeline and adds a FastAPI HTTP service, Edge-TTS integration, long-text chunking, asynchronous task tracking, static feature caching, and chunk-based video generation.
 
